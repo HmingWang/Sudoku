@@ -35,6 +35,16 @@ namespace Sudoku
             this.G12.Children.Add(lbl);
             this.G12.Children.Add(lb2);
             Grid.SetColumn(lb2, 1);
+
+            this.GMain.Children.Clear();
+            this.GMain.RowDefinitions.Clear();
+            this.GMain.ColumnDefinitions.Clear();
+            
+            Grid g = SudokuMap.MakeMap();
+            this.GMain.Children.Add(g);
+
+            SudokuMap.WirteNumber(9, 3, 3);
+            SudokuMap.WirteNote(4, 1, 1);
         }
     }
 }
