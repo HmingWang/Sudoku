@@ -24,5 +24,17 @@ namespace Sudoku
         {
             InitializeComponent();
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            Label lbl = new Label();
+            lbl.Content = "1";
+
+            Label lb2 = new Label();
+            lb2.Content = "2";
+            this.G12.Children.Add(lbl);
+            this.G12.Children.Add(lb2);
+            Grid.SetColumn(lb2, 1);
+        }
     }
 }
