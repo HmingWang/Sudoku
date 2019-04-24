@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace Sudoku
@@ -11,25 +13,45 @@ namespace Sudoku
     class SudokuMap
     {
         private static Random random = new Random();
-        private static Grid GMain;
+        private static Grid G1; //第一级grid 顶层。
+        private static Grid[] G2; //第二级，grid
+        private static Grid[] G3;
+
+        private static void MakeG1()
+        {
+            G1 = GenerateGrid(3, 3);
+        }
+
+        private static void MakeG2()
+        {
+            G2 = new Grid[9];
+            foreach (Grid i in G2)
+            {
+                //i = GenerateGrid(3, 3);
+            }
+
+        }
         public static Grid MakeMap()
         {
-            GMain = GenerateGrid(3,3);
-            Make99Grid(GMain);
+            G1 = GenerateGrid(3,3);
+            Make99Grid(G1);
 
-            foreach (Grid i in GMain.Children)
+            foreach (var i in G1.Children)
             {
                 //i.Children.Add(new Border()); 
-                Make99Grid(i);
-                foreach (var j in i.Children)
+                if (i is Grid)
                 {
-                    if(j is Grid)
-                        AddMask((Grid)j);
+                    Make99Grid((Grid)i);
+                    foreach (var j in ((Grid)i).Children)
+                    {
+                        if (j is Grid)
+                            AddMask((Grid)j);
+                    }
                 }
 
             }
 
-            return GMain;
+            return G1;
         }
 
         private static Grid GenerateGrid(int row, int col)
@@ -45,7 +67,20 @@ namespace Sudoku
             g.Margin = new System.Windows.Thickness(0);
             g.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
             g.VerticalAlignment = System.Windows.VerticalAlignment.Stretch;
-           
+            //g.ShowGridLines = true;
+
+
+
+            /*int count = row * col;
+            while (count-- > 0)
+            {
+                Button btnTmp = new Button();
+                btnTmp.Background= new SolidColorBrush(Color.FromRgb((byte)random.Next(0, 255), (byte)random.Next(0, 255), (byte)random.Next(0, 255)));
+                g.Children.Add(btnTmp);
+                Grid.SetRow(btnTmp, count / 3 % 3);
+                Grid.SetColumn(btnTmp, count % 3);
+            }*/
+
             return g;
         }
 
@@ -66,6 +101,7 @@ namespace Sudoku
             {
                 Label tmp = new Label();
                 tmp.Content = (i+1).ToString();
+                tmp.MouseDoubleClick += new MouseButtonEventHandler(lbl_DoubleClick);
                 g.Children.Add(tmp);
                 Grid.SetRow(tmp, i / 3 % 3);
                 Grid.SetColumn(tmp, i % 3);
@@ -109,6 +145,11 @@ namespace Sudoku
 
             Grid.SetRow(lbl,(num-1) / 3);
             Grid.SetColumn(lbl,(num-1) % 3);
+        }
+
+        private static void lbl_DoubleClick(object sender, MouseButtonEventArgs arg)
+        {
+            MessageBox.Show((sender as Label).Content.ToString());
         }
     }
 }

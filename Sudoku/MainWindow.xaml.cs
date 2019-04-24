@@ -43,8 +43,8 @@ namespace Sudoku
             Grid g = SudokuMap.MakeMap();
             this.GMain.Children.Add(g);
 
-            SudokuMap.WirteNumber(9, 3, 3);
-            SudokuMap.WirteNote(4, 1, 1);
+            //SudokuMap.WirteNumber(9, 3, 3);
+            //SudokuMap.WirteNote(4, 1, 1);
         }
     }
 }
