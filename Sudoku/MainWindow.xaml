@@ -7,8 +7,15 @@
         mc:Ignorable="d"
         Title="Sudoku 数独
         " Height="642" Width="800" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
-    <Grid HorizontalAlignment="Left" Width="600" Margin="0,6,0,5" Height="600" Name="GMain">
+    <Grid Margin="0" Height="600" Name="GMain">
         <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MaxWidth="600" MinWidth="600"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <!--<Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
@@ -18,7 +25,9 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Grid Background="#FFF0F0F0" Name="G11">
+        <Border BorderBrush="Black" Grid.RowSpan="3" Grid.ColumnSpan="3" BorderThickness="1" Padding="0" />
+
+        <Grid Background="#FFF0F0F0" x:Name="G11">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -29,7 +38,7 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Grid Margin="0" Grid.Row="0" Grid.Column="0" Name="GA1">
+            <Grid Margin="0" Grid.Row="0" Grid.Column="0" x:Name="GA1">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
@@ -40,7 +49,7 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Label Content="1" Grid.Row="0" Grid.Column="0" Name="tip1"/>
+                <Label Content="1" Grid.Row="0" Grid.Column="0" x:Name="tip1"/>
                 <Label Content="2" Grid.Row="0" Grid.Column="1"/>
                 <Label Content="3" Grid.Row="0" Grid.Column="2"/>
                 <Label Content="4" Grid.Row="1" Grid.Column="0"/>
@@ -50,7 +59,7 @@
                 <Label Content="8" Grid.Row="2" Grid.Column="1"/>
                 <Label Content="9" Grid.Row="2" Grid.Column="2"/>
             </Grid>
-            <Grid Margin="0" Grid.Row="1" Grid.Column="0" Name="GB1">
+            <Grid Margin="0" Grid.Row="1" Grid.Column="0" x:Name="GB1">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
@@ -61,7 +70,7 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                
+
             </Grid>
             <Grid Margin="0" Grid.Row="2" Grid.Column="0">
                 <Grid.RowDefinitions>
@@ -148,7 +157,7 @@
                 </Grid.ColumnDefinitions>
             </Grid>
         </Grid>
-        <Grid Grid.Column="1" Margin="0" Name="G12">
+        <Grid Grid.Column="1" Margin="0" x:Name="G12">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -268,7 +277,7 @@
                 </Grid.ColumnDefinitions>
             </Grid>
         </Grid>
-        <Grid Grid.Column="2" Margin="0" Background="#FFF0F0F0" Name="G13">
+        <Grid Grid.Column="2" Margin="0" x:Name="G13" Background="#FFF0F0F0">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -388,7 +397,7 @@
                 </Grid.ColumnDefinitions>
             </Grid>
         </Grid>
-        <Grid Margin="0" Grid.Row="1" Name="G21">
+        <Grid Margin="0" Grid.Row="1" x:Name="G21">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -508,7 +517,7 @@
                 </Grid.ColumnDefinitions>
             </Grid>
         </Grid>
-        <Grid Grid.Column="1" Margin="0" Grid.Row="1" Background="#FFF0F0F0" Name="G22">
+        <Grid Grid.Column="1" Margin="0" Grid.Row="1" Background="#FFF0F0F0" x:Name="G22">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -628,7 +637,7 @@
                 </Grid.ColumnDefinitions>
             </Grid>
         </Grid>
-        <Grid Grid.Column="2" Margin="0" Grid.Row="1" Name="G23">
+        <Grid Grid.Column="2" Margin="0" Grid.Row="1" x:Name="G23">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -748,7 +757,7 @@
                 </Grid.ColumnDefinitions>
             </Grid>
         </Grid>
-        <Grid Margin="0" Grid.Row="2" Background="#FFF0F0F0" Name="G31">
+        <Grid Margin="0" Grid.Row="2" Background="#FFF0F0F0" x:Name="G31">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -868,7 +877,7 @@
                 </Grid.ColumnDefinitions>
             </Grid>
         </Grid>
-        <Grid Grid.Column="1" Margin="0" Grid.Row="2" Name="G32">
+        <Grid Grid.Column="1" Margin="0" Grid.Row="2" x:Name="G32">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -988,7 +997,7 @@
                 </Grid.ColumnDefinitions>
             </Grid>
         </Grid>
-        <Grid Grid.Column="2" Margin="0" Grid.Row="2" Background="#FFF0F0F0" Name="G33">
+        <Grid Grid.Column="2" Margin="0" Grid.Row="2" Background="#FFF0F0F0" x:Name="G33">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -1108,6 +1117,16 @@
                 </Grid.ColumnDefinitions>
             </Grid>
         </Grid>
+ -->
+        <Button x:Name="btn1" Content="1" Grid.Column="1" HorizontalAlignment="Left" Margin="10,49,0,0" VerticalAlignment="Top" Width="32" Height="32" Click="Btn_Click"/>
+        <Button x:Name="btn2" Content="2" Grid.Column="1" HorizontalAlignment="Left" Margin="10,86,0,0" VerticalAlignment="Top" Width="32" Height="32" Click="Btn_Click"/>
+        <Button x:Name="btn3" Content="3" Grid.Column="1" HorizontalAlignment="Left" Margin="10,123,0,0" VerticalAlignment="Top" Width="32" Height="32" Click="Btn_Click"/>
+        <Button x:Name="btn4" Content="4" Grid.Column="1" HorizontalAlignment="Left" Margin="10,160,0,0" VerticalAlignment="Top" Width="32" Height="32" Click="Btn_Click"/>
+        <Button x:Name="btn5" Content="5" Grid.Column="1" HorizontalAlignment="Left" Margin="10,197,0,0" VerticalAlignment="Top" Width="32" Height="32" Grid.RowSpan="2" Click="Btn_Click"/>
+        <Button x:Name="btn6" Content="6" Grid.Column="1" HorizontalAlignment="Left" Margin="10,234,0,0" VerticalAlignment="Top" Width="32" Height="32" Click="Btn_Click"/>
+        <Button x:Name="btn7" Content="7" Grid.Column="1" HorizontalAlignment="Left" Margin="10,271,0,0" VerticalAlignment="Top" Width="32" Height="32" Click="Btn_Click"/>
+        <Button x:Name="btn8" Content="8" Grid.Column="1" HorizontalAlignment="Left" Margin="10,308,0,0" VerticalAlignment="Top" Width="32" Height="32" Click="Btn_Click"/>
+        <Button x:Name="btn9" Content="9" Grid.Column="1" HorizontalAlignment="Left" Margin="10,345,0,0" VerticalAlignment="Top" Width="32" Height="32" Click="Btn_Click"/>
 
     </Grid>
 </Window>

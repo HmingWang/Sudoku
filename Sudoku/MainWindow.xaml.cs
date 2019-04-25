@@ -27,24 +27,34 @@ namespace Sudoku
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Label lbl = new Label();
-            lbl.Content = "1";
 
-            Label lb2 = new Label();
-            lb2.Content = "2";
-            this.G12.Children.Add(lbl);
-            this.G12.Children.Add(lb2);
-            Grid.SetColumn(lb2, 1);
-
-            this.GMain.Children.Clear();
-            this.GMain.RowDefinitions.Clear();
-            this.GMain.ColumnDefinitions.Clear();
+            //this.GMain.Children.Clear();  
             
-            Grid g = SudokuMap.MakeMap();
+            Grid g = Viewer.MakeMap();
             this.GMain.Children.Add(g);
+            Grid.SetColumn(g, 0);
+            Grid.SetRow(g, 0);
 
-            //SudokuMap.WirteNumber(9, 3, 3);
-            //SudokuMap.WirteNote(4, 1, 1);
+            Viewer.WirteNumber(9, 3, 3);
+            Viewer.WirteNote(4, 1, 1);
+        }
+
+        private void Btn_Click(object sender, RoutedEventArgs e)
+        {
+            SudokuMap.CurrentNumber = int.Parse((sender as Button).Content.ToString());
+
+            Button b = sender as Button;
+            if (b.Tag == null || (bool)(b.Tag) == false)
+            {
+                b.Tag = true;
+                b.Background = Brushes.Gray;
+            }
+            else
+            {
+                b.Tag = false;
+                b.Background = Brushes.Silver;
+            }
+            //MessageBox.Show((sender as Button).Content.ToString());
         }
     }
 }
