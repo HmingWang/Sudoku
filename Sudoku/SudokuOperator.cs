@@ -43,5 +43,10 @@ namespace Sudoku
         {
             return sudokuGrid.GetClues(row, col);
         }
+
+        public bool CheckCell(int row,int col)
+        {
+            return SudokuAlgorithm.CheckCell(row, col);
+        }
     }
 }
