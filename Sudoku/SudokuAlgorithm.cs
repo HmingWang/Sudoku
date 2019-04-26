@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sudoku
 {
-    static class SudokuAlgorithm
+    public static class SudokuAlgorithm
     {
         static int[,] pazzle = new int[9, 9];
         static int[,] solution = new int[9, 9];
@@ -47,7 +47,7 @@ namespace Sudoku
 
             return block;
         }
-        public static void GenerateSudokuPazzle()
+        public static void GenSudokuPazzle()
         {
             solution = new int[,]{
                 { 8,7,1,9,3,2,6,4,5},
@@ -86,42 +86,46 @@ namespace Sudoku
 
         private static bool CheckRow(int row)
         {
-            int bits = 0;
+            int[] bits = new int[9];
+
             for(int j = 0; j < 9; ++j)
             {
-                bits ^= (0x0001 << pazzle[row, j]-1);
+                if (pazzle[row, j] == 0) continue;
+
+                if (bits[pazzle[row, j] - 1] ==1) return false;
+                bits[pazzle[row, j] - 1] = 1;
             }
-            return bits == 0;
+            return true;
         }
 
         private static bool CheckColumn(int col)
         {
-            int bits= 0;
+            int[] bits = new int[9];
             for (int i = 0; i < 9; ++i)
             {
-                int num = 1 << pazzle[i, col] - 1;
-                if ((bits & num) > 0) return false;
-
-                bits |= num;
+                if (pazzle[i, col] == 0) continue;
+                if (bits[pazzle[i, col] - 1] == 1) return false;
+                bits[pazzle[i, col] - 1] = 1;
             }
             return true;
         }
 
         private static bool CheckBlock(int row,int col)
         {
-            int bits = 0;
-            int[,] block = GetBlock(row, col);
+            int[] bits = new int[9];
+            int[] xy = GetChuteCoordinate(row, col);
+            int[,] block = GetBlock( xy[0],xy[1]);
             for (int i = 0; i < 3; ++i)
                 for (int j = 0; j < 3; ++j)
                 {
-                    int num = 1 << block[i, j] - 1;
-                    if ((bits & num) > 0) return false;
-                    bits |= num;
+                    if (pazzle[i, j] == 0) continue;
+                    if (bits[pazzle[i, j] - 1] == 1) return false;
+                    bits[pazzle[i, j] - 1] = 1;
                 }
             return true;
         }
 
-        private static bool CheckCell(int row ,int col)
+        public static bool CheckCell(int row ,int col)
         {
             return CheckRow(row) && CheckColumn(col) && CheckBlock(row,col);
         }

@@ -16,7 +16,7 @@ namespace Sudoku
         }
         public void InitSudokuGrid()
         {
-            SudokuAlgorithm.GenerateSudokuPazzle();
+            SudokuAlgorithm.GenSudokuPazzle();
             int[,] pazzle = SudokuAlgorithm.GetPazzle();
             int[,] solution = SudokuAlgorithm.GetSolution();
 
