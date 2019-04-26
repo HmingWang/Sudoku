@@ -13,14 +13,18 @@ namespace Sudoku
 {
     static class Viewer
     {
+        private static SudokuOperator oper;
         private static Grid G1; //第一级grid 顶层。
         private static Grid[,] G2; //第二级，grid 3x3
         private static Grid[,] G3;//第三级 grid 9x9
         private static int currentNumber;
+        private static bool isNoteMode=false;
         public static int CurrentNumber { get => currentNumber; set => currentNumber = value; }
+        public static bool IsNoteMode { get => isNoteMode; set => isNoteMode = value; }
+
         private static Random random = new Random();
 
-        private static Grid GenerateGrid(int row, int col)
+        private static Grid MakeGrid(int row, int col)
         {
             Grid g = new Grid();
             while (row-- > 0)
@@ -38,7 +42,7 @@ namespace Sudoku
         }
         private static void MakeG1()
         {
-            G1 = GenerateGrid(3, 3);
+            G1 = MakeGrid(3, 3);
         }
         private static void MakeG2()
         {
@@ -48,23 +52,19 @@ namespace Sudoku
             {
                 row = i / 3;
                 col = i % 3;
-                G2[row, col] = GenerateGrid(3, 3);
+                G2[row, col] = MakeGrid(3, 3);
 
                 G1.Children.Add(G2[row, col]);
                 Grid.SetRow(G2[row, col], row);
                 Grid.SetColumn(G2[row, col], col);
-
-                //var b = new Border();
-                //b.Margin = new Thickness(1);
-                //b.BorderBrush = Brushes.Black;
-                //b.BorderThickness = new Thickness(1);
-
-                //Grid.SetRow(b, 0);
-                //Grid.SetColumn(b, 0);
-                //Grid.SetRowSpan(b, 3);
-                //Grid.SetColumnSpan(b, 3);
-                //G2[row, col].Children.Add(b);
             }
+
+            SolidColorBrush brush = new SolidColorBrush(Color.FromRgb(240, 240, 240));
+            G2[0, 0].Background = brush;
+            G2[0, 2].Background = brush;
+            G2[1, 1].Background = brush;
+            G2[2, 0].Background = brush;
+            G2[2, 2].Background = brush;
 
         }
         private static void MakeG3()
@@ -79,24 +79,18 @@ namespace Sudoku
                 c = i % 9 % 3;
                 x = i / 9;
                 y = i % 9;
-                G3[x, y] = GenerateGrid(3, 3);
+                G3[x, y] = MakeGrid(3, 3);
                 int[] index = new int[2];
                 index[0] = x;
                 index[1] = y;
                 G3[x, y].Tag = index;
                 G3[x, y].MouseLeftButtonDown += new MouseButtonEventHandler(MouseDown_SetNumber);
+                G3[x, y].KeyDown += new KeyEventHandler(KeyDown_SetNumber);
                 G2[row, col].Children.Add(G3[x, y]);
                 Grid.SetRow(G3[x, y], r);
                 Grid.SetColumn(G3[x, y], c);
-
-                Label lblbg = new Label();
-                lblbg.HorizontalAlignment = HorizontalAlignment.Stretch;
-                lblbg.VerticalAlignment = VerticalAlignment.Stretch;
-                Grid.SetRow(lblbg, 0);
-                Grid.SetColumn(lblbg, 0);
-                Grid.SetRowSpan(lblbg, 3);
-                Grid.SetColumnSpan(lblbg, 3);
-                G3[x, y].Children.Add(lblbg);
+                
+                G3Active(G3[x, y]);
 
                 var b = new Border();
                 b.Margin = new Thickness(1);
@@ -109,6 +103,17 @@ namespace Sudoku
                 Grid.SetColumnSpan(b, 3);
                 G3[x, y].Children.Add(b);
             }
+        }
+        private static void G3Active(Grid g)
+        {
+            Label lblbg = new Label();
+            lblbg.HorizontalAlignment = HorizontalAlignment.Stretch;
+            lblbg.VerticalAlignment = VerticalAlignment.Stretch;
+            Grid.SetRow(lblbg, 0);
+            Grid.SetColumn(lblbg, 0);
+            Grid.SetRowSpan(lblbg, 3);
+            Grid.SetColumnSpan(lblbg, 3);
+            g.Children.Add(lblbg);
         }
         private static void G3ToFront()
         {
@@ -129,55 +134,65 @@ namespace Sudoku
             }
         }
 
-        public static void MouseDown_SetNumber(object sender, MouseButtonEventArgs args)
+        private static void MouseDown_SetNumber(object sender, MouseButtonEventArgs args)
         {
+            int x = ((sender as Grid).Tag as int[])[0];
+            int y = ((sender as Grid).Tag as int[])[1];
             if (CurrentNumber > 0)
-                WirteNumber(CurrentNumber, ((sender as Grid).Tag as int[])[0], ((sender as Grid).Tag as int[])[1]);
+            {
+                if (IsNoteMode)
+                {
+                    WirteNote(CurrentNumber, x, y);
+                }
+                else
+                {
+                    WriteNumber(CurrentNumber, x, y);
+                }
+            }
+            
+        }
 
+        private static void KeyDown_SetNumber(object sender, KeyEventArgs args)
+        {
 
         }
-        public static Grid MakeMap()
+        public static Grid MakeMainGrid()
         {
+            
             MakeG1();
             MakeG2();
             MakeG3();
+            MakeMap();
 
-            SolidColorBrush brush = new SolidColorBrush(Color.FromRgb(240, 240, 240));
-            G2[0, 0].Background = brush;
-            G2[0, 2].Background = brush;
-            G2[1, 1].Background = brush;
-            G2[2, 0].Background = brush;
-            G2[2, 2].Background = brush;
-
-            //G3ToFront();
             return G1;
         }
 
-        private static void AddMask(Grid g)
+        private static void MakeMap()
         {
+            oper = new SudokuOperator();
+            oper.InitSudokuGrid();
             for (int i = 0; i < 9; ++i)
             {
-                Label tmp = new Label();
-                tmp.Content = (i + 1).ToString();
-                tmp.MouseDoubleClick += new MouseButtonEventHandler(lbl_DoubleClick);
-                g.Children.Add(tmp);
-                Grid.SetRow(tmp, i / 3 % 3);
-                Grid.SetColumn(tmp, i % 3);
+                for (int j = 0; j < 9; ++j)
+                {
+                    if (oper.GetNumber(i,j) != 0)
+                    {
+                        WriteNumber(oper.GetNumber(i, j), i, j);
+                    }
+                }
             }
         }
 
 
-        public static void WirteNumber(int num, int row, int col)
+
+        public static void WriteNumber(int num, int row, int col)
         {
+            oper.SetNumber(num, row, col);
+
             Grid g = G3[row, col];
             g.Children.Clear();
-            g.RowDefinitions.Clear();
-            g.ColumnDefinitions.Clear();
 
-            Label lblbg = new Label();
-            lblbg.HorizontalAlignment = HorizontalAlignment.Stretch;
-            lblbg.VerticalAlignment = VerticalAlignment.Stretch;
-            g.Children.Add(lblbg);
+            G3Active(g);
 
             var b = new Border();
             b.Margin = new Thickness(1);
@@ -196,7 +211,6 @@ namespace Sudoku
             lblnum.FontSize = 24;
             lblnum.HorizontalAlignment = HorizontalAlignment.Center;
             lblnum.VerticalAlignment = VerticalAlignment.Center;
-            //lblnum.Background = Brushes.Red;
             Grid.SetRow(lblnum, 0);
             Grid.SetColumn(lblnum, 0);
             Grid.SetRowSpan(lblnum, 3);
@@ -206,15 +220,24 @@ namespace Sudoku
 
         public static void WirteNote(int num, int row, int col)
         {
+            oper.SetClue(num, row, col);
+
             Grid g = G3[row, col];
             g.Children.Clear();
 
-            Label lbl = new Label();
-            lbl.Content = num.ToString();
-            g.Children.Add(lbl);
+            G3Active(g);
 
-            Grid.SetRow(lbl, (num - 1) / 3);
-            Grid.SetColumn(lbl, (num - 1) % 3);
+            foreach(int i in oper.GetClues(row,col))
+            {
+                if (i == 0) continue;
+                Label lbl = new Label();
+                lbl.Content = i.ToString();
+                lbl.HorizontalAlignment = HorizontalAlignment.Center;
+                lbl.VerticalAlignment = VerticalAlignment.Center;
+                g.Children.Add(lbl);
+                Grid.SetRow(lbl, (i - 1) / 3);
+                Grid.SetColumn(lbl, (i - 1) % 3);
+            }
 
             var b = new Border();
             b.Margin = new Thickness(1);

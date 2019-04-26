@@ -1,0 +1,129 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Sudoku
+{
+    static class SudokuAlgorithm
+    {
+        static int[,] pazzle = new int[9, 9];
+        static int[,] solution = new int[9, 9];
+
+        public static int[] GetCoordinate(int index)
+        {
+            int[] xy = new int[2];
+            xy[0] = index / 9;
+            xy[1] = index % 9;
+            return xy;
+        }
+        public static int[] GetChuteCoordinate(int row,int col)
+        {
+            int[] ft = new int[2];
+            ft[0] = row / 3;
+            ft[1] = col / 3;
+            return ft;
+        }
+        public static int[] GetSubCoordinate(int row,int col)
+        {
+            int[] xy = new int[2];
+            xy[0] = row % 3;
+            xy[1] = col % 3;
+            return xy;
+        }
+        public static int GetIndex(int row,int col)
+        {
+            return row * 9 + col;
+        }
+        public static int[,] GetBlock(int floor,int tower)
+        {
+            int[,] block = new int[3, 3];
+            for(int i=0;i<3;++i)
+                for(int j = 0; j < 3; ++j)
+                {
+                    block[i, j] = pazzle[floor * 3 + i, tower * 3 + j];
+                }
+
+            return block;
+        }
+        public static void GenerateSudokuPazzle()
+        {
+            solution = new int[,]{
+                { 8,7,1,9,3,2,6,4,5},
+                { 4,9,5,8,6,1,2,3,7},
+                { 6,3,2,7,5,4,8,1,9},
+                { 5,2,8,4,7,3,1,9,6},
+                { 9,1,3,6,2,5,7,8,4},
+                { 7,6,4,1,9,8,3,5,2},
+                { 2,8,7,3,4,9,5,6,1},
+                { 1,4,6,5,8,7,9,2,3},
+                { 3,5,9,2,1,6,4,7,8}
+            };
+
+            pazzle = new int[,] {
+                { 8,0,1,9,3,2,6,4,5},
+                { 4,0,5,8,0,1,2,3,0},
+                { 6,3,2,7,5,4,8,1,9},
+                { 5,2,8,4,7,3,1,0,6},
+                { 9,0,3,6,0,5,7,8,4},
+                { 7,6,4,1,0,0,3,5,2},
+                { 2,8,0,3,4,9,5,6,1},
+                { 1,0,6,5,0,7,9,2,3},
+                { 3,5,0,2,1,6,4,7,0}
+            };
+        }
+
+        public static int[,] GetPazzle()
+        {
+            return pazzle;
+        }
+
+        public static int[,] GetSolution()
+        {
+            return solution;
+        }
+
+        private static bool CheckRow(int row)
+        {
+            int bits = 0;
+            for(int j = 0; j < 9; ++j)
+            {
+                bits ^= (0x0001 << pazzle[row, j]-1);
+            }
+            return bits == 0;
+        }
+
+        private static bool CheckColumn(int col)
+        {
+            int bits= 0;
+            for (int i = 0; i < 9; ++i)
+            {
+                int num = 1 << pazzle[i, col] - 1;
+                if ((bits & num) > 0) return false;
+
+                bits |= num;
+            }
+            return true;
+        }
+
+        private static bool CheckBlock(int row,int col)
+        {
+            int bits = 0;
+            int[,] block = GetBlock(row, col);
+            for (int i = 0; i < 3; ++i)
+                for (int j = 0; j < 3; ++j)
+                {
+                    int num = 1 << block[i, j] - 1;
+                    if ((bits & num) > 0) return false;
+                    bits |= num;
+                }
+            return true;
+        }
+
+        private static bool CheckCell(int row ,int col)
+        {
+            return CheckRow(row) && CheckColumn(col) && CheckBlock(row,col);
+        }
+    }
+}

@@ -1127,6 +1127,7 @@
         <Button x:Name="btn7" Content="7" Grid.Column="1" HorizontalAlignment="Left" Margin="10,271,0,0" VerticalAlignment="Top" Width="32" Height="32" Click="Btn_Click"/>
         <Button x:Name="btn8" Content="8" Grid.Column="1" HorizontalAlignment="Left" Margin="10,308,0,0" VerticalAlignment="Top" Width="32" Height="32" Click="Btn_Click"/>
         <Button x:Name="btn9" Content="9" Grid.Column="1" HorizontalAlignment="Left" Margin="10,345,0,0" VerticalAlignment="Top" Width="32" Height="32" Click="Btn_Click"/>
+        <CheckBox x:Name="cbx_notes" Content="Notes" Grid.Column="1" HorizontalAlignment="Left" Margin="10,396,0,0" VerticalAlignment="Top" Click="Cbx_notes_Checked"/>
 
     </Grid>
 </Window>
