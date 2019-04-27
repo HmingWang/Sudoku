@@ -17,8 +17,8 @@ namespace Sudoku
         public void InitSudokuGrid()
         {
             SudokuAlgorithm.GenSudokuPazzle();
-            int[,] pazzle = SudokuAlgorithm.GetPazzle();
-            int[,] solution = SudokuAlgorithm.GetSolution();
+            int[,] pazzle = SudokuAlgorithm.Pazzle;
+            int[,] solution = SudokuAlgorithm.Solution;
 
             sudokuGrid.InitSudokuGrid(pazzle, solution);
  
@@ -31,6 +31,8 @@ namespace Sudoku
 
         public void SetNumber(int num,int row, int col)
         {
+            SudokuAlgorithm.Pazzle[row, col] = num;
+         
             sudokuGrid.SetNumber(num, row, col);
         }
 
@@ -47,6 +49,11 @@ namespace Sudoku
         public bool CheckCell(int row,int col)
         {
             return SudokuAlgorithm.CheckCell(row, col);
+        }
+
+        public SudokuCell GetCell(int row,int col)
+        {
+            return sudokuGrid.GetCell(row, col);
         }
     }
 }

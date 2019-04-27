@@ -78,5 +78,10 @@ namespace Sudoku
         {
             Viewer.IsNoteMode = (sender as CheckBox).IsChecked??false;
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Viewer.Reset();
+        }
     }
 }
