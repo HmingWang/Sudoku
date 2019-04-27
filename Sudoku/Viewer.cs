@@ -96,7 +96,7 @@ namespace Sudoku
                 index[0] = x;
                 index[1] = y;
                 G3[x, y].Tag = index;
-                G3[x, y].MouseLeftButtonDown += new MouseButtonEventHandler(MouseDown_SetNumber);
+                G3[x, y].MouseLeftButtonDown += new MouseButtonEventHandler(Grid_MouseDown);
                 G3[x, y].KeyDown += new KeyEventHandler(KeyDown_SetNumber);
                 G2[row, col].Children.Add(G3[x, y]);
                 Grid.SetRow(G3[x, y], r);
@@ -145,10 +145,12 @@ namespace Sudoku
         }
 
 
-        private static void MouseDown_SetNumber(object sender, MouseButtonEventArgs args)
+
+        private static void Grid_MouseDown(object sender, MouseButtonEventArgs args)
         {
             int x = ((sender as Grid).Tag as int[])[0];
-            int y = ((sender as Grid).Tag as int[])[1];
+            int y = ((sender as Grid).Tag as int[])[1];            
+
             if (CurrentNumber > 0)
             {
                 if (IsNoteMode)
@@ -160,9 +162,16 @@ namespace Sudoku
                     WriteNumber(CurrentNumber, x, y);
                 }
             }
-            
+            else
+            {
+                SelectCell(x, y);
+            }
         }
 
+        private static void SelectCell(int row,int col)
+        {
+
+        }
         private static void KeyDown_SetNumber(object sender, KeyEventArgs args)
         {
 

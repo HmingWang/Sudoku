@@ -38,6 +38,7 @@ namespace Sudoku
 
         private void btnClear()
         {
+            Brush b= new SolidColorBrush(Color.FromRgb(221, 221, 221));
             this.btn1.Tag = null;
             this.btn2.Tag = null;
             this.btn3.Tag = null;
@@ -47,15 +48,15 @@ namespace Sudoku
             this.btn7.Tag = null;
             this.btn8.Tag = null;
             this.btn9.Tag = null;
-            this.btn1.Background = Brushes.Silver;
-            this.btn2.Background = Brushes.Silver;
-            this.btn3.Background = Brushes.Silver;
-            this.btn4.Background = Brushes.Silver;
-            this.btn5.Background = Brushes.Silver;
-            this.btn6.Background = Brushes.Silver;
-            this.btn7.Background = Brushes.Silver;
-            this.btn8.Background = Brushes.Silver;
-            this.btn9.Background = Brushes.Silver;
+            this.btn1.Background = b;
+            this.btn2.Background = b;
+            this.btn3.Background = b;
+            this.btn4.Background = b;
+            this.btn5.Background = b;
+            this.btn6.Background = b;
+            this.btn7.Background = b;
+            this.btn8.Background = b;
+            this.btn9.Background = b;
         }
         private void Btn_Click(object sender, RoutedEventArgs e)
         {
@@ -70,7 +71,7 @@ namespace Sudoku
             else
             {
                 b.Tag = false;
-                b.Background = Brushes.Silver;
+                b.Background = new SolidColorBrush(Color.FromRgb(221, 221, 221));
             }
         }
 
