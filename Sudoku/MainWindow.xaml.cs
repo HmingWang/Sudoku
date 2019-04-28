@@ -31,9 +31,8 @@ namespace Sudoku
             this.GMain.Children.Add(g);
             Grid.SetColumn(g, 0);
             Grid.SetRow(g, 0);
-
-            Viewer.WriteNumber(9, 3, 3);
-            Viewer.WirteNote(4, 1, 1);
+            //Viewer.WriteNumber(9, 3, 3);
+            //Viewer.WirteNote(4, 1, 1);
         }
 
         private void btnClear()
