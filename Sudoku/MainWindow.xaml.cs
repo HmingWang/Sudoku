@@ -27,7 +27,7 @@ namespace Sudoku
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {            
-            Grid g = Viewer.MakeMainGrid();
+            Grid g = Viewer.Map_Init();
             this.GMain.Children.Add(g);
             Grid.SetColumn(g, 0);
             Grid.SetRow(g, 0);
@@ -82,7 +82,12 @@ namespace Sudoku
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Viewer.Reset();
+            Viewer.G3_Reset();
+        }
+
+        private void MainWind_KeyDown(object sender, KeyEventArgs e)
+        {
+            Viewer.Grid_KeyDown(sender, e);
         }
     }
 }

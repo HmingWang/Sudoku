@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Sudoku 数独
         " Height="642" Width="800" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
-    <Grid Margin="0" Height="600" Name="GMain">
+    <Grid Margin="0" Height="600" Name="GMain" Focusable="True">
         <Grid.RowDefinitions>
             <RowDefinition/>
         </Grid.RowDefinitions>
